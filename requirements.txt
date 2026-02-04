@@ -1,5 +1,7 @@
 # Dependências de Produção
 click>=8.0
+httpx>=0.24
+pyjwt>=2.0
 
 # Dependências de Desenvolvimento
 pytest>=7.0

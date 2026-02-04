@@ -30,6 +30,8 @@ classifiers = [
 keywords = ["postgresql", "backup", "restore", "database", "migration", "mirror", "cli"]
 dependencies = [
     "click>=8.0",
+    "httpx>=0.24",
+    "pyjwt>=2.0",
 ]
 
 [project.optional-dependencies]

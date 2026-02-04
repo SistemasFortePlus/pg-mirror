@@ -1,0 +1,11 @@
+# TODO
+
+1. Excluir bancos
+2. Atualizar bancos
+3. Criar assinatura e assinatura usuario + update usuário erika
+
+# Implementado (parcial)
+- Registrar backups em SQLite (~/.pg_mirror/pg_mirror.db)
+- Hooks: GET `/api/v1/assinaturas/<id>/` (env `FORTEPLUS_TOKEN`) e POST para `http://192.168.200.68:8031/api/v1/assinaturas/` com payload obtido
+  - CLI: opção `--assinatura-id` para ativar o fluxo
+  - Tokens devem ser fornecidos via variáveis de ambiente

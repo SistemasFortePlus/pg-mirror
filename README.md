@@ -100,6 +100,20 @@ Edite `config.json`:
 pg-mirror mirror --config config.json
 ```
 
+### Notificações (opcional)
+
+Você pode registrar backups em um banco SQLite local e executar hooks HTTP logo após a criação do backup. Para isso, use a opção `--assinatura-id`:
+
+```bash
+pg-mirror mirror --config config.json --assinatura-id 12345
+```
+
+Com `--assinatura-id` a ferramenta fará:
+- Um GET em `https://assinaturas.forteplus.com.br/api/v1/assinaturas/<id>/` (usa `FORTEPLUS_TOKEN` da env)
+- Um POST em `http://192.168.200.68:8031/api/v1/assinaturas/` com o payload retornado
+
+O histórico de backups é salvo em `~/.pg_mirror/pg_mirror.db`.
+
 ## 📖 Configuração Detalhada
 
 ### Opções do config.json
