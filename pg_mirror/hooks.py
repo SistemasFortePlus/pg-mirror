@@ -66,7 +66,7 @@ def obter_dados_assinatura_producao(assinatura_id: str) -> Optional[dict[str, An
             "FORTEPLUS_TOKEN não configurado no ambiente"
         )
 
-    url = f"{PROD_ENVIRONMENT_URL}assinaturas/{assinatura_id}/"
+    url = f"{PROD_ENVIRONMENT_URL}assinaturas/{assinatura_id}/form/"
     headers = {
         "Authorization": FORTEPLUS_TOKEN,
         "Accept": "application/json",
@@ -82,8 +82,6 @@ def obter_dados_assinatura_producao(assinatura_id: str) -> Optional[dict[str, An
 
 
 def clonar_assinatura_desenvolvimento(payload: dict) -> Any:
-    print("PAYLOAD:", payload)
-
     if not FORTEPLUS_TOKEN:
         logger.warning("Token env var 'FORTEPLUS_TOKEN' não encontrado")
         raise ImproperlyConfiguredException(
