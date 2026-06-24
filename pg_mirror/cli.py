@@ -13,6 +13,7 @@ from pg_mirror.database import (
     check_database_exists,
     create_database,
     drop_and_create_database,
+    terminate_connections,
 )
 from pg_mirror import hooks
 from pg_mirror.backup import create_backup, cleanup_backup
@@ -274,6 +275,15 @@ def mirror(ctx, config, jobs, drop_existing, skip_checks):
             host=cfg["target"]["host"],
             port=cfg["target"]["port"],
             database=target_database,
+            user=cfg["target"]["user"],
+            password=cfg["target"]["password"],
+            logger=logger,
+        )
+
+        terminate_connections(
+            host=cfg["target"]["host"],
+            port=cfg["target"]["port"],
+            database="api_erp",
             user=cfg["target"]["user"],
             password=cfg["target"]["password"],
             logger=logger,

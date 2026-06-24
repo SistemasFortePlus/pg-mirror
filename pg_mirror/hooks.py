@@ -10,7 +10,7 @@ Observação: assume que a biblioteca `httpx` está disponível no ambiente.
 
 import os
 import re
-from typing import Optional, Any
+from typing import Optional, Any, Dict
 
 import httpx
 
@@ -25,7 +25,7 @@ FORTEPLUS_TOKEN = os.environ.get("FORTEPLUS_TOKEN")
 PROD_ENVIRONMENT_URL = "https://assinaturas.forteplus.com.br/api/v1/"
 DEV_ENVIRONMENT_URL = "http://192.168.200.68:8031/api/v1/"
 DEV_ENVIRONMENT_URL_2 = "http://192.168.200.68:8032/api/v1/"
-DEFAULT_TIMEOUT = 10
+DEFAULT_TIMEOUT = 30
 
 
 def extrair_id_assinatura_do_nome_banco(nome_banco: str) -> Optional[str]:
@@ -59,7 +59,7 @@ def extrair_id_assinatura_do_nome_banco(nome_banco: str) -> Optional[str]:
     return None
 
 
-def obter_dados_assinatura_producao(assinatura_id: str) -> Optional[dict[str, Any]]:
+def obter_dados_assinatura_producao(assinatura_id: str) -> Optional[Dict[str, Any]]:
     if not FORTEPLUS_TOKEN:
         logger.warning("Token env var 'FORTEPLUS_TOKEN' não encontrado")
         raise ImproperlyConfiguredException(

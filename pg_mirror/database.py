@@ -214,10 +214,51 @@ def check_database_exists(host, port, database, user, password, logger):
         return False
 
 
+def terminate_connections(host, port, database, user, password, logger):
+    """
+    Encerra todas as conexões ativas com o banco de dados.
+
+    Args:
+        host: Hostname do servidor PostgreSQL
+        port: Porta do servidor
+        database: Nome do banco de dados alvo
+        user: Usuário do PostgreSQL
+        password: Senha do usuário
+        logger: Logger configurado
+    """
+    import os
+
+    env = os.environ.copy()
+    env['PGPASSWORD'] = password
+
+    sql = f"""
+        SELECT pg_terminate_backend(pid)
+        FROM pg_stat_activity
+        WHERE datname = '{database}'
+          AND pid <> pg_backend_pid();
+    """
+
+    cmd = [
+        'psql',
+        '-h', host,
+        '-p', str(port),
+        '-U', user,
+        '-d', 'postgres',
+        '-c', sql
+    ]
+
+    try:
+        result = subprocess.run(cmd, env=env, capture_output=True, text=True, check=False)
+        logger.info(f"Conexões com '{database}' encerradas")
+        logger.debug(result.stdout.strip())
+    except Exception as e:
+        logger.warning(f"Erro ao encerrar conexões com '{database}': {e}")
+
+
 def create_database(host, port, database, user, password, logger):
     """
     Cria o banco de dados
-    
+
     Args:
         host: Hostname do servidor PostgreSQL
         port: Porta do servidor
@@ -227,10 +268,10 @@ def create_database(host, port, database, user, password, logger):
         logger: Logger configurado
     """
     import os
-    
+
     env = os.environ.copy()
     env['PGPASSWORD'] = password
-    
+
     create_cmd = [
         'psql',
         '-h', host,
@@ -239,7 +280,7 @@ def create_database(host, port, database, user, password, logger):
         '-d', 'postgres',
         '-c', f'CREATE DATABASE "{database}";'
     ]
-    
+
     try:
         subprocess.run(create_cmd, env=env, check=True, capture_output=True)
         logger.info(f"Banco '{database}' criado com sucesso")

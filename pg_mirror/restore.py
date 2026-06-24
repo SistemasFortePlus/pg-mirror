@@ -34,6 +34,8 @@ def restore_backup(backup_file, host, port, database, user, password,
         '-U', user,
         '-d', database,
         '-j', str(parallel_jobs),  # paralelização
+        '--clean',
+        '--if-exists',
         '--no-owner',
         '--no-acl',
         backup_file
@@ -68,7 +70,8 @@ def restore_backup(backup_file, host, port, database, user, password,
                         'must be owner',
                         'permission denied',
                         'role',
-                        'does not exist'
+                        'does not exist',
+                        'transaction_timeout',
                     ]):
                         critical_errors.append(line.strip())
                 

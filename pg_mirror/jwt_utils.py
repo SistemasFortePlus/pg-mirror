@@ -6,7 +6,7 @@ o banco de dados de destino em ambientes multitenantes.
 
 import jwt
 import os
-from typing import Any
+from typing import Any, Dict, Optional
 
 
 from pg_mirror.logger import setup_logger
@@ -27,7 +27,7 @@ class JWTDbAusenteError(Exception):
     pass
 
 
-def decodificar_payload_jwt(token: str) -> dict[str, Any]:
+def decodificar_payload_jwt(token: str) -> Dict[str, Any]:
     """Decodifica o payload de um JWT sem verificar a assinatura e expiração.
     
     Args:
@@ -89,7 +89,7 @@ def modificar_db_no_token(token: str, novo_db: str) -> str:
     return novo_token
 
 
-def obter_db_do_token(token: str) -> str | None:
+def obter_db_do_token(token: str) -> Optional[str]:
     """Obtém o valor da chave 'db' do payload do JWT.
     
     Args:
